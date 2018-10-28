@@ -1,3 +1,5 @@
+run_analysis <- function() {
+
 # Download the dataset.
 filename <- "CourseraGetandCleanData.zip"
 
@@ -51,7 +53,7 @@ mergeddata$activity <- factor(mergeddata$activity, levels = activities[, 1], lab
 datasummary <-aggregate(mergeddata[, 3:ncol(mergeddata)], by=list(mergeddata$subject,mergeddata$activity), FUN=mean, na.rm=TRUE)
 colnames(datasummary) [1:2]<- c("subject", "activity")
 write.table(datasummary, file="datasummary.txt", row.names = FALSE)
-
+}
 
 
 
