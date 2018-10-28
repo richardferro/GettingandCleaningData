@@ -1,0 +1,57 @@
+---
+title: "codebook"
+author: "Richard Ferro"
+date: "10/28/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Project Description
+
+This project is to read in raw data and to 'clean' the data into  a tidy data set for later analysis.  The raw data comes from the experiment data of human activity recognition using smartphones data set. More information about the experiments can be found at the following website. http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones.
+
+## Raw Data Collection
+
+The data for this project is available at https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
+
+The folder includes the following data sets that are being used:
+- 'features.txt': List of all features.
+- 'activity_labels.txt': Links the class labels with their activity name.
+- 'train/X_train.txt': Training set.
+- 'train/y_train.txt': Training labels.
+- 'test/X_test.txt': Test set.
+- 'test/y_test.txt': Test labels.
+- 'train/subject_train.txt' and 'test/subject_test.txt': Each row identifies the subject who performed the activity for each window sample for training and test set respectively. Its range is from 1 to 30.
+
+## Description on how to create the tidy data file 
+
+1.	Download the above data and unzip to working directory.
+2.	Load the activities in 'activity_labels.txt' and features in 'features.txt' and assign the value to variables ‘activities’ and ‘features’. 
+3.	Select only mean and standard deviation in variable ‘features’ using ‘grep’ function, and assign to variable ‘statsFeatures’.
+4.	Assign to the variables, 'XtrainData', 'YtrainLabel', 'XtestData', 'YtestLabel', 'trainSubject', and 'testSubject'the data sored in the files ‘X_train.txt’, ‘y_train.txt', ‘X_test.txt', ‘y_test.txt' 'subject_train.txt' and 'subject_test.txt', respectively.  Filter 'XtrainData' and 'XtestData' with columns matching 'statsFeatures'to create the variables 'XtrainDataStats' and 'XtestDataStats'.  
+5.	Create the variable 'combineTrain'  by combining the data in the variables 'trainSubject', 'YtrainLabel', and 'XtrainDataStats' using the 'cbind' function.  Similarly, create the variable 'combineTest' by combining the data stored in the variables 'testSubject', 'YtestLabel', and 'XtestDataStats'.
+6.	the variable 'mergeddata' by merginging 'combineTrain' and 'combineTest' using the function 'rbind.
+7.	The function ‘gsub’ was used to replace ‘-‘ with ‘_’ and remove ‘()’ in column 2 of 'statsFeatures'. Rename column names in “mergeddata” to ‘subject’, ‘activity’ and features in ‘statsFeatures’ column 2. 
+8.	Use ‘factor’ function to name the activity column in “mergeddata” using the descriptive activity names in ‘activities’. 
+9.	To find the statistical mean of each variable in “mergeddata” for each activity and each subject, use ‘aggregate’ function and FUN = mean and get a new tidy data set ‘dataSummary’. Rename the first two columns of ‘dataSummary’ to ‘subject’ and ‘activity’. Write the output to ‘datasummary.txt’ in working directory. 
+
+## Descriptions of new variables
+
+activities: Link class labels with their activity name.
+features: List of all features.
+StatsFeatures: Feactures containing mean (‘mean’)and standard deviation(‘std’)
+XtrainData: training data set
+XtrainDataStats: Training set with stats features containing mean and standard deviation.
+YtrainLabel: Training labels for activity names.
+trainSubject: For each window sample for training data set,the rows identify the subject who performed the activity
+XtestData：test data set.
+XtestDataStats: The test data set with features containing mean and standard deviation.
+YtestLabel: test labels
+testSubject: For each window sample for test data set, each row identifies the subject who performed the activity.
+combineTrain: training data set together with subject and activity
+combineTest: test data set together with subject and activity
+mergeddata: merged data set including both combineTrain and combineTest
+datasummary: summary data set with the average of each variable for each activity and each subject
